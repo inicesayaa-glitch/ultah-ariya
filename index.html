@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Misterious Button 🎁</title>
+  <style>
+    @font-face {
+      font-family: 'MyCuteFont';
+      src: url('MyCuteFont.ttf') format('truetype');
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffdee9, #b5fffc);
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 2;
+    }
+
+    .mystery-btn {
+      padding: 20px 40px;
+      font-size: 20px;
+      border: none;
+      border-radius: 20px;
+      background: #ff77b4;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+    .mystery-btn:hover {
+      transform: scale(1.1);
+      background: #ff4a9d;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .message {
+      font-family: 'MyCuteFont', cursive;
+      font-size: 42px;
+      color: #ff4a9d;
+      text-shadow: 2px 2px #fff;
+      margin-top: 20px;
+      min-height: 60px;
+    }
+
+    .caption {
+      margin-top: 20px;
+      font-family: 'MyCuteFont', cursive;
+      font-size: 28px;
+      color: #333;
+      text-shadow: 1px 1px #fff;
+      transition: all 0.4s ease;
+    }
+
+    .gallery-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .gallery-title {
+      font-family: 'MyCuteFont', cursive;
+      font-size: 20px;
+      color: #555;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px #fff;
+    }
+
+    .gallery {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .gallery img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transform: rotate(-2deg);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .gallery img:hover {
+      transform: rotate(0) scale(1.1);
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Floating love balloons */
+    .love {
+      position: fixed;
+      opacity: 0;
+      z-index: 10;
+      pointer-events: none;
+      animation: floatLove 3s forwards;
+    }
+
+    @keyframes floatLove {
+      0%   { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
+      20%  { opacity: 1; transform: translateY(-50px) rotate(20deg) scale(1.2); }
+      50%  { opacity: 1; transform: translateY(-150px) rotate(-20deg) scale(1); }
+      80%  { opacity: 0.8; transform: translateY(-230px) rotate(10deg) scale(0.9); }
+      100% { opacity: 0; transform: translateY(-320px) rotate(-15deg) scale(0.7); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="mystery-btn" id="mysteryBtn">pencet for love</button>
+    <div id="surprise" class="hidden">
+      <div class="message" id="message"></div>
+      <div class="gallery-section">
+        <div class="gallery-title">choose your character</div>
+        <div class="gallery">
+          <img src="images/foto1.png" alt="matchaholic" data-love="💚" data-bg="#b5ffb5" data-text="#006400" data-caption="ariya matchaholic">
+          <img src="images/foto2.png" alt="fineshyt" data-love="❤️" data-bg="#ffb5b5" data-text="#800000" data-caption="ariya fineshyt">
+          <img src="images/foto3.png" alt="pinkanmambo" data-love="🩷" data-bg="#e0b5ff" data-text="#6A0DAD" data-caption="ariya pinkan mambo">
+          <img src="images/foto4.png" alt="myariya" data-love="🖤" data-bg="#444444" data-text="#000000" data-caption="ariyanya cesaaa">
+        </div>
+        <div id="photoCaption" class="caption"></div>
+      </div>
+    </div>
+  </div>
+  <canvas id="confetti"></canvas>
+  <audio id="music" src="https://www.bensound.com/bensound-music/bensound-celebration.mp3"></audio>
+
+  <script>
+    const btn = document.getElementById("mysteryBtn");
+    const surprise = document.getElementById("surprise");
+    const music = document.getElementById("music");
+    const messageBox = document.getElementById("message");
+
+    const birthdayText = "happy bday sayangku cintaku ariyaaaaaaaa, pacar paling bandel tapi paling gemesin, yang rela nemenin aku main emel walaupun aku afk ketiduran badplay, rajin jaga streak tiktok kita si srepet yang hampir 400 api taun depan, hobinya bolos magang. makasiiii banyaakk udah selalu bikin aku ketawa dan happy, marah-marahin aku biar engga begadang, dan tetep jadi hero op di hidupku. love uuuu bandel boy, jangan kemana mana ya sayangg i really really really love u soooooooo muchh mwah<3";
+
+    btn.addEventListener("click", () => {
+      btn.classList.add("hidden");
+      surprise.classList.remove("hidden");
+      startConfetti();
+      music.play();
+      typeWriter(birthdayText, 0);
+    });
+
+    // Typewriter effect
+    function typeWriter(text, i) {
+      if (i < text.length) {
+        messageBox.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, i + 1), 70);
+      }
+    }
+
+    // Floating love balloon (random size & sway)
+    function showLove(emoji, x, y) {
+      const love = document.createElement("div");
+      love.classList.add("love");
+      love.textContent = emoji;
+
+      // random size 60px - 140px
+      const size = 60 + Math.random() * 80;
+      love.style.fontSize = size + "px";
+
+      love.style.left = x + "px";
+      love.style.top = y + "px";
+
+      // variasi acak durasi & posisi goyangan
+      love.style.animationDuration = (2.5 + Math.random()) + "s";
+      love.style.transform = `translateX(${(Math.random() * 100 - 50)}px)`;
+
+      document.body.appendChild(love);
+
+      setTimeout(() => {
+        love.remove();
+      }, 3500);
+    }
+
+    // Foto klik event
+    document.querySelectorAll(".gallery img").forEach(img => {
+      img.addEventListener("click", (e) => {
+        const emoji = img.dataset.love;
+        const bgColor = img.dataset.bg;
+        const textColor = img.dataset.text;
+        const captionText = img.dataset.caption;
+        const x = e.clientX - 50;
+        const y = e.clientY - 50;
+
+        // munculin love
+        showLove(emoji, x, y);
+
+        // ganti background body
+        document.body.style.background = bgColor;
+
+        // ganti warna teks ucapan
+        document.getElementById("message").style.color = textColor;
+
+        // ganti caption di bawah galeri
+        const captionBox = document.getElementById("photoCaption");
+        captionBox.textContent = captionText;
+        captionBox.style.color = textColor; // warna sama dengan teks ucapan
+      });
+    });
+
+    // Confetti Effect
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+    const numPieces = 150;
+
+    for (let i = 0; i < numPieces; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        w: 10,
+        h: 20,
+        color: `hsl(${Math.random() * 360},100%,50%)`,
+        speed: Math.random() * 3 + 2,
+        rotation: Math.random() * 360
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(p => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI/180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      });
+    }
+
+    function update() {
+      pieces.forEach(p => {
+        p.y += p.speed;
+        p.rotation += p.speed;
+        if (p.y > canvas.height) {
+          p.y = -20;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    function loop() {
+      draw();
+      update();
+      requestAnimationFrame(loop);
+    }
+
+    function startConfetti() {
+      loop();
+    }
+  </script>
+</body>
+</html>
