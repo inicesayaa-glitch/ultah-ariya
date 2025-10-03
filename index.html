@@ -20,9 +20,27 @@
       overflow: hidden;
     }
 
+    /* NEW: background foto tengah */
+    #photoBg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 60%;
+      height: 60%;
+      transform: translate(-50%, -50%);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+
     .container {
       text-align: center;
       z-index: 2;
+      position: relative;
     }
 
     .cake-emoji {
@@ -139,6 +157,9 @@
   </style>
 </head>
 <body>
+  <!-- NEW background foto -->
+  <div id="photoBg"></div>
+
   <div class="container">
     <div class="cake-emoji">🎂</div>
     <button class="mystery-btn" id="mysteryBtn">Tiup Lilin</button>
@@ -196,7 +217,6 @@
       love.style.left = x + "px";
       love.style.top = y + "px";
 
-      // variasi acak durasi & posisi goyangan
       love.style.animationDuration = (2.5 + Math.random()) + "s";
       love.style.transform = `translateX(${(Math.random() * 100 - 50)}px)`;
 
@@ -220,7 +240,7 @@
         // munculin love
         showLove(emoji, x, y);
 
-        // ganti background body
+        // ganti background warna
         document.body.style.background = bgColor;
 
         // ganti warna teks ucapan
@@ -229,7 +249,15 @@
         // ganti caption di bawah galeri
         const captionBox = document.getElementById("photoCaption");
         captionBox.textContent = captionText;
-        captionBox.style.color = textColor; // warna sama dengan teks ucapan
+        captionBox.style.color = textColor;
+
+        // NEW: munculin foto besar di tengah dengan fade
+        const photoBg = document.getElementById("photoBg");
+        photoBg.style.opacity = "0";
+        setTimeout(() => {
+          photoBg.style.backgroundImage = `url(${img.src})`;
+          photoBg.style.opacity = "0.75";
+        }, 300);
       });
     });
 
