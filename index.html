@@ -112,7 +112,7 @@
       <div class="gallery">
         <img src="images/foto1.png" alt="photo1" data-love="💚" data-bg="#b5ffb5">
         <img src="images/foto2.png" alt="photo2" data-love="❤️" data-bg="#ffb5b5">
-        <img src="images/foto3.png" alt="photo3" data-love="💖" data-bg="#ffb5f5">
+        <img src="images/foto3.png" alt="photo3" data-love="🩷" data-bg="#ffb5f5">
         <img src="images/foto4.png" alt="photo4" data-love="🖤" data-bg="#444444">
       </div>
     </div>
@@ -172,9 +172,11 @@
     document.querySelectorAll(".gallery img").forEach(img => {
       img.addEventListener("click", (e) => {
         const emoji = img.dataset.love;
+        const bgColor = img.dataset.bg;
         const x = e.clientX - 50;
         const y = e.clientY - 50;
         showLove(emoji, x, y);
+        document.body.style.background = bgColor;
       });
     });
 
